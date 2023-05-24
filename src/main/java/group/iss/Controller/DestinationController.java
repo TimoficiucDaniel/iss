@@ -3,6 +3,7 @@ package group.iss.Controller;
 import group.iss.Model.Destination;
 import group.iss.Service.DestinationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,21 +17,25 @@ public class DestinationController {
     DestinationService service;
 
     @GetMapping("/details/{id}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public Destination getDestination(@PathVariable Long id){
         return service.getById(id);
     }
 
     @GetMapping("/{page}")
+    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public List<Destination> getDestinations(@PathVariable int page){
         return service.getPublicLists(page);
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasRole('ADMIN')")
     public Destination addDestination(@RequestBody Destination destination){
         return service.saveDestination(destination);
     }
 
     @PutMapping("/edit/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public Destination updateDestination(@RequestBody Destination destination, @PathVariable Long id){
         Destination oldDestination = service.getById(id);
 
@@ -43,6 +48,7 @@ public class DestinationController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteDestination(@PathVariable Long id){
         service.deleteDestination(id);
     }
