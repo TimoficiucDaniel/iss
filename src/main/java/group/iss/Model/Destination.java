@@ -8,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="destinations")
+@JsonIgnoreProperties("image")
 public class Destination {
 
     private @Id
@@ -38,13 +39,14 @@ public class Destination {
     public Destination() {
     }
 
-    public Destination(String title, byte[] image, String description, Date arrival_date, Date departure_date, Boolean isPrivate) {
+    public Destination(String title, byte[] image, String description, Date arrival_date, Date departure_date, Boolean isPrivate, List<BucketListItem> bucketListItems) {
         this.title = title;
         this.image = image;
         this.description = description;
         this.arrival_date = arrival_date;
         this.departure_date = departure_date;
         this.isPrivate = isPrivate;
+        this.bucketListItems = bucketListItems;
     }
 
     public Long getId() {
@@ -101,5 +103,13 @@ public class Destination {
 
     public void setIsPrivate(Boolean isPrivate) {
         this.isPrivate = isPrivate;
+    }
+
+    public List<BucketListItem> getBucketListItems() {
+        return bucketListItems;
+    }
+
+    public void setBucketListItems(List<BucketListItem> bucketListItems) {
+        this.bucketListItems = bucketListItems;
     }
 }

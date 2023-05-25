@@ -31,4 +31,8 @@ public class DestinationService {
     public Destination getById(Long id){
         return repo.findById(id).get();
     }
+
+    public byte[] getImageById(Long id){
+        return repo.findById(id).get().getImage();
+    }
 }

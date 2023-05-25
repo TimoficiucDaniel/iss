@@ -92,5 +92,8 @@ public class User {
 
     public void addBucketListItem(BucketListItem item){
         this.bucketListItems.add(item);
+        System.out.println("lmao");
     }
+
+    public void deleteBucketListItem(BucketListItem item){this.bucketListItems.remove(item);}
 }
