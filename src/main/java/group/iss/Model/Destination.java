@@ -14,6 +14,9 @@ public class Destination {
     private @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) Long id;
 
+    @Column(name = "geolocation")
+    private String geolocation;
+
     @Column(name = "title")
     private String title;
 
@@ -39,7 +42,8 @@ public class Destination {
     public Destination() {
     }
 
-    public Destination(String title, byte[] image, String description, Date arrival_date, Date departure_date, Boolean isPrivate, List<BucketListItem> bucketListItems) {
+    public Destination(String geolocation, String title, byte[] image, String description, Date arrival_date, Date departure_date, Boolean isPrivate, List<BucketListItem> bucketListItems) {
+        this.geolocation = geolocation;
         this.title = title;
         this.image = image;
         this.description = description;
@@ -111,5 +115,13 @@ public class Destination {
 
     public void setBucketListItems(List<BucketListItem> bucketListItems) {
         this.bucketListItems = bucketListItems;
+    }
+
+    public String getGeolocation() {
+        return geolocation;
+    }
+
+    public void setGeolocation(String geolocation) {
+        this.geolocation = geolocation;
     }
 }
