@@ -3,6 +3,7 @@ package group.iss.Model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -123,5 +124,20 @@ public class Destination {
 
     public void setGeolocation(String geolocation) {
         this.geolocation = geolocation;
+    }
+
+    @Override
+    public String toString() {
+        return "Destination{" +
+                "id=" + id +
+                ", geolocation='" + geolocation + '\'' +
+                ", title='" + title + '\'' +
+                ", image=" + Arrays.toString(image) +
+                ", description='" + description + '\'' +
+                ", arrival_date=" + arrival_date +
+                ", departure_date=" + departure_date +
+                ", isPrivate=" + isPrivate +
+                ", bucketListItems=" + bucketListItems +
+                '}';
     }
 }
