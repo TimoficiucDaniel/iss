@@ -1,8 +1,11 @@
 package group.iss.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -25,13 +28,18 @@ public class User {
     @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @JsonIgnoreProperties("user")
+    private List<BucketListItem> bucketListItems;
+
     public User() {
     }
 
-    public User(java.lang.String username, java.lang.String email, java.lang.String password) {
+    public User(String username, String email, String password, List<BucketListItem> bucketListItems) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.bucketListItems = bucketListItems;
     }
 
     public Long getId() {
@@ -73,4 +81,19 @@ public class User {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    public List<BucketListItem> getBucketListItems() {
+        return bucketListItems;
+    }
+
+    public void setBucketListItems(List<BucketListItem> bucketListItems) {
+        this.bucketListItems = bucketListItems;
+    }
+
+    public void addBucketListItem(BucketListItem item){
+        this.bucketListItems.add(item);
+        System.out.println("lmao");
+    }
+
+    public void deleteBucketListItem(BucketListItem item){this.bucketListItems.remove(item);}
 }
