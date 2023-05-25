@@ -38,7 +38,7 @@ public class DestinationController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public Destination addDestination(@RequestBody Destination destination){
         Destination dest = service.saveDestination(destination);
         System.out.println(dest);
@@ -61,6 +61,7 @@ public class DestinationController {
         Destination oldDestination = service.getById(id);
 
         oldDestination.setDescription(destination.getDescription());
+        oldDestination.setGeolocation(destination.getGeolocation());
         oldDestination.setTitle(destination.getTitle());
         oldDestination.setArrival_date(destination.getArrival_date());
         oldDestination.setDeparture_date(destination.getDeparture_date());
