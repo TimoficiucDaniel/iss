@@ -7,10 +7,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
+@CrossOrigin(origins = "http://localhost:3000",allowCredentials = "true")
 @RestController
 @RequestMapping("/api/destinations")
 public class DestinationController {
@@ -18,7 +20,7 @@ public class DestinationController {
     DestinationService service;
 
     @GetMapping("/details/{id}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public Destination getDestination(@PathVariable Long id){
         return service.getById(id);
     }
@@ -30,7 +32,7 @@ public class DestinationController {
     }
 
     @GetMapping("/{page}")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+    @PreAuthorize("hasRole('USER')  or hasRole('ADMIN')")
     public List<Destination> getDestinations(@PathVariable int page){
         return service.getPublicLists(page);
     }
@@ -38,7 +40,19 @@ public class DestinationController {
     @PostMapping("/add")
     @PreAuthorize("hasRole('ADMIN')")
     public Destination addDestination(@RequestBody Destination destination){
-        return service.saveDestination(destination);
+        Destination dest = service.saveDestination(destination);
+        System.out.println(dest);
+        return dest;
+    }
+
+    @PutMapping(value = "/add/{id}",consumes = {"multipart/form-data"},produces = "application/json")
+    @PreAuthorize("hasRole('ADMIN')")
+    public Destination addDestinationImage(@PathVariable Long id, @RequestBody MultipartFile file) throws IOException {
+        Destination oldDestination = service.getById(id);
+
+        oldDestination.setImage(file.getBytes());
+
+        return service.saveDestination(oldDestination);
     }
 
     @PutMapping("/edit/{id}")
