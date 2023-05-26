@@ -5,6 +5,7 @@ import group.iss.Repo.RoleRepo;
 import group.iss.Repo.UserRepo;
 import group.iss.Security.JwtUtils;
 import group.iss.Security.UserDetailsImpl;
+import group.iss.Security.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -114,5 +115,27 @@ public class AuthController {
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've been signed out!"));
+    }
+
+    @PutMapping("/updateAccount/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable Long id,@RequestBody User user){
+        if (userRepository.existsByUsername(user.getUsername())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
+        }
+
+        if (userRepository.existsByEmail(user.getEmail())) {
+            return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
+        }
+
+        User oldUser = userRepository.getById(id);
+        oldUser.setEmail(user.getEmail());
+        oldUser.setUsername(user.getUsername());
+        userRepository.save(oldUser);
+
+        UserDetailsImpl userDetails = UserDetailsImpl.build(oldUser);
+
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new MessageResponse("Account changed"));
     }
 }
