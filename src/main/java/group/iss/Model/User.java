@@ -28,7 +28,7 @@ public class User {
     @JoinTable(name = "user_roles",joinColumns = @JoinColumn(name="user_id"),inverseJoinColumns = @JoinColumn(name="role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user")
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "user" , cascade = CascadeType.ALL)
     @JsonIgnoreProperties("user")
     private List<BucketListItem> bucketListItems;
 

@@ -36,7 +36,7 @@ public class BucketListService {
         userRepo.findById(id).get().addBucketListItem(item);
     }
 
-    public void deleteDestination(Long id){
-        bucketListItemRepo.deleteById(id);
+    public void deleteDestination(Long id,Long item){
+        bucketListItemRepo.deleteById(bucketListItemRepo.findByUserIdAndDestinationId(id,item).getId());
     }
 }

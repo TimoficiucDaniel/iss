@@ -36,7 +36,7 @@ public class Destination {
     @Column(name = "private")
     private Boolean isPrivate;
 
-    @OneToMany(mappedBy = "destination")
+    @OneToMany(mappedBy = "destination", cascade = CascadeType.ALL)
     @JsonIgnoreProperties("destination")
     private List<BucketListItem> bucketListItems;
 

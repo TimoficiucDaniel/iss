@@ -38,7 +38,7 @@ public class DestinationController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public Destination addDestination(@RequestBody Destination destination){
         Destination dest = service.saveDestination(destination);
         System.out.println(dest);
@@ -46,7 +46,7 @@ public class DestinationController {
     }
 
     @PutMapping(value = "/add/{id}",consumes = {"multipart/form-data"},produces = "application/json")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public Destination addDestinationImage(@PathVariable Long id, @RequestBody MultipartFile file) throws IOException {
         Destination oldDestination = service.getById(id);
 
@@ -56,7 +56,7 @@ public class DestinationController {
     }
 
     @PutMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public Destination updateDestination(@RequestBody Destination destination, @PathVariable Long id){
         Destination oldDestination = service.getById(id);
 
@@ -69,7 +69,7 @@ public class DestinationController {
     }
 
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or hasRole('USER')")
     public void deleteDestination(@PathVariable Long id){
         service.deleteDestination(id);
     }

@@ -36,7 +36,7 @@ public class BucketListController {
 
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     @DeleteMapping("/{id}/bucket-list/delete/{item}")
-    public void deleteDestination(@PathVariable Long item){
-        service.deleteDestination(item);
+    public void deleteDestination(@PathVariable Long id,@PathVariable Long item){
+        service.deleteDestination(id,item);
     }
 }
