@@ -61,6 +61,7 @@ public class DestinationController {
         Destination oldDestination = service.getById(id);
 
         oldDestination.setDescription(destination.getDescription());
+        oldDestination.setGeolocation(destination.getGeolocation());
         oldDestination.setTitle(destination.getTitle());
         oldDestination.setArrival_date(destination.getArrival_date());
         oldDestination.setDeparture_date(destination.getDeparture_date());
