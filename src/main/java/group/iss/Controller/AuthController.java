@@ -139,10 +139,10 @@ public class AuthController {
                 .body(new MessageResponse("Account changed"));
     }
 
-    @DeleteMapping("/deleteUser/{id}")
+    @PostMapping("/deleteUser/{id}")
     public ResponseEntity<?> deleteUser(@PathVariable Long id){
-        userRepository.deleteById(id);
         ResponseCookie cookie = jwtUtils.getCleanJwtCookie();
+        userRepository.deleteById(id);
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString())
                 .body(new MessageResponse("You've deleted your account!"));
     }
